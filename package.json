@@ -1,7 +1,7 @@
 {
   "name": "life-journal",
   "version": "1.0.0",
-  "description": "记录即意义 · Obsidian日记侧边栏插件",
+  "description": "璁板綍鍗虫剰涔?路 Obsidian鏃ヨ渚ц竟鏍忔彃浠?,
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",
@@ -10,7 +10,6 @@
   "keywords": ["obsidian", "journal", "diary"],
   "devDependencies": {
     "@types/node": "^16.11.6",
-    "builtin-modules": "^3.3.0",
     "esbuild": "0.17.3",
     "obsidian": "latest",
     "tslib": "2.4.0",
