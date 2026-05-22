@@ -1,0 +1,1420 @@
+/* ════════════════════════════════════════════════════════
+   Life Journal · v3.0.2 · 键盘适配 + v2.0 风格还原
+   核心原则：
+   - lj-root = flex column，overflow-y:auto（唯一滚动容器）
+   - lj-header / lj-mode-toggle-fixed / lj-tab-bar = flex-shrink:0 固定
+   - lj-content-scroll = flex:1，不设 overflow-y（普通流）
+   - textarea = rows=5 固定行数，不 flex:1
+   - lj-save-btn-sticky = 普通流式，键盘弹起时随内容上移
+   ═══════════════════════════════════════════════════════ */
+
+/* ── 配色皮肤变量 ────────────────────────────────────────── */
+/* 🌿 晨林 Forest（默认） */
+body.lj-theme-forest {
+  --lj-bg:           #f4f7f2;
+  --lj-surface:      #ffffff;
+  --lj-surface2:     #eef3eb;
+  --lj-border:       #d4e2cc;
+  --lj-accent:       #4a8c5c;
+  --lj-accent-soft:  #c8e6c9;
+  --lj-text:         #2d3b2a;
+  --lj-text-muted:   #6b8a62;
+  --lj-text-sub:     #9ab49a;
+  --lj-shadow:       rgba(74, 140, 92, 0.12);
+  --lj-radius:       14px;
+  /* 渐变色：Header / 按钮 / Tab active */
+  --lj-grad-from:    #52b788;
+  --lj-grad-to:      #2d6a4f;
+  --lj-bg-grad:      linear-gradient(160deg, #f0f7ec 0%, #e8f5e2 50%, #f2f8ee 100%);
+  --lj-grad-shadow:  rgba(74, 140, 92, 0.35);
+}
+
+/* 🌊 海浪 Ocean */
+body.lj-theme-ocean {
+  --lj-bg:           #f0f5fa;
+  --lj-surface:      #ffffff;
+  --lj-surface2:     #e8f2fb;
+  --lj-border:       #c5d9ee;
+  --lj-accent:       #2a6fa8;
+  --lj-accent-soft:  #bbdefb;
+  --lj-text:         #1a2f45;
+  --lj-text-muted:   #5580a4;
+  --lj-text-sub:     #96b4cc;
+  --lj-shadow:       rgba(42, 111, 168, 0.12);
+  --lj-radius:       14px;
+  /* 渐变色 */
+  --lj-grad-from:    #1a8bb5;
+  --lj-grad-to:      #0d4f8a;
+  --lj-bg-grad:      linear-gradient(160deg, #eef5fc 0%, #deeeff 50%, #eaf4fd 100%);
+  --lj-grad-shadow:  rgba(42, 111, 168, 0.35);
+}
+
+/* 🏜️ 暮沙 Desert */
+body.lj-theme-desert {
+  --lj-bg:           #faf6f0;
+  --lj-surface:      #ffffff;
+  --lj-surface2:     #f5ede0;
+  --lj-border:       #e8d5bb;
+  --lj-accent:       #b5651d;
+  --lj-accent-soft:  #ffcc80;
+  --lj-text:         #3e2a14;
+  --lj-text-muted:   #8d6035;
+  --lj-text-sub:     #c4996a;
+  --lj-shadow:       rgba(181, 101, 29, 0.12);
+  --lj-radius:       14px;
+  /* 渐变色 */
+  --lj-grad-from:    #e07b2a;
+  --lj-grad-to:      #b5400a;
+  --lj-bg-grad:      linear-gradient(160deg, #fdf6ee 0%, #faebd8 50%, #fdf3e8 100%);
+  --lj-grad-shadow:  rgba(181, 101, 29, 0.35);
+}
+
+/* 🌸 樱落 Cherry */
+body.lj-theme-cherry {
+  --lj-bg:           #fdf5f8;
+  --lj-surface:      #ffffff;
+  --lj-surface2:     #fce8f0;
+  --lj-border:       #f0c8da;
+  --lj-accent:       #c2185b;
+  --lj-accent-soft:  #f8bbd0;
+  --lj-text:         #3b0a20;
+  --lj-text-muted:   #9c3a60;
+  --lj-text-sub:     #ce8dab;
+  --lj-shadow:       rgba(194, 24, 91, 0.10);
+  --lj-radius:       18px;
+  /* 渐变色 */
+  --lj-grad-from:    #e91e8c;
+  --lj-grad-to:      #9c0050;
+  --lj-bg-grad:      linear-gradient(160deg, #fff0f5 0%, #fce4ee 50%, #fff5f8 100%);
+  --lj-grad-shadow:  rgba(194, 24, 91, 0.35);
+}
+
+/* 🌅 暮霞 Dusk */
+body.lj-theme-dusk {
+  --lj-bg:           #faf3f0;
+  --lj-surface:      #ffffff;
+  --lj-surface2:     #f5e8e0;
+  --lj-border:       #e8cec0;
+  --lj-accent:       #b05020;
+  --lj-accent-soft:  #ffab91;
+  --lj-text:         #3a1f14;
+  --lj-text-muted:   #8a4a30;
+  --lj-text-sub:     #c48970;
+  --lj-shadow:       rgba(176, 80, 32, 0.12);
+  --lj-radius:       14px;
+  /* 渐变色 */
+  --lj-grad-from:    #f97316;
+  --lj-grad-to:      #b05020;
+  --lj-bg-grad:      linear-gradient(160deg, #fff5f0 0%, #fde8dc 50%, #fff0e8 100%);
+  --lj-grad-shadow:  rgba(176, 80, 32, 0.35);
+}
+
+/* 🌙 极夜 Midnight */
+body.lj-theme-midnight {
+  --lj-bg:           #0f1117;
+  --lj-surface:      #1a1d26;
+  --lj-surface2:     #252a36;
+  --lj-border:       #2a3040;
+  --lj-accent:       #7c8cf8;
+  --lj-accent-soft:  rgba(124, 140, 248, 0.15);
+  --lj-text:         #e8e8f0;
+  --lj-text-muted:   #a0a0b8;
+  --lj-text-sub:     #606080;
+  --lj-shadow:       rgba(0, 0, 0, 0.3);
+  --lj-radius:       14px;
+  /* 渐变色 */
+  --lj-grad-from:    #7c8cf8;
+  --lj-grad-to:      #a855f7;
+  --lj-bg-grad:      linear-gradient(160deg, #0d0d18 0%, #141228 50%, #0d0d18 100%);
+  --lj-grad-shadow:  rgba(124, 140, 248, 0.4);
+}
+
+/* 💜 薰衣草 Lavender */
+body.lj-theme-lavender {
+  --lj-bg:           #f5f0fa;
+  --lj-surface:      #ffffff;
+  --lj-surface2:     #ebe3f5;
+  --lj-border:       #d5c4e8;
+  --lj-accent:       #7b5dc4;
+  --lj-accent-soft:  #d1c4e9;
+  --lj-text:         #2a2045;
+  --lj-text-muted:   #6a5090;
+  --lj-text-sub:     #a088c0;
+  --lj-shadow:       rgba(123, 93, 196, 0.12);
+  --lj-radius:       16px;
+  /* 渐变色 */
+  --lj-grad-from:    #9c6ee8;
+  --lj-grad-to:      #6530b8;
+  --lj-bg-grad:      linear-gradient(160deg, #f8f4ff 0%, #ede4fa 50%, #f5f0ff 100%);
+  --lj-grad-shadow:  rgba(123, 93, 196, 0.35);
+}
+
+/* 🍵 抹茶 Matcha */
+body.lj-theme-matcha {
+  --lj-bg:           #f2f5ec;
+  --lj-surface:      #ffffff;
+  --lj-surface2:     #e8f0dc;
+  --lj-border:       #c8d8b0;
+  --lj-accent:       #5a8a5a;
+  --lj-accent-soft:  #c5e1a5;
+  --lj-text:         #2a3a24;
+  --lj-text-muted:   #5a7050;
+  --lj-text-sub:     #90a880;
+  --lj-shadow:       rgba(90, 138, 90, 0.12);
+  --lj-radius:       14px;
+  /* 渐变色 */
+  --lj-grad-from:    #7ab648;
+  --lj-grad-to:      #3d7a3d;
+  --lj-bg-grad:      linear-gradient(160deg, #f0f5e8 0%, #e4f0d4 50%, #eef5e4 100%);
+  --lj-grad-shadow:  rgba(90, 138, 90, 0.35);
+}
+
+/* ════════════════════════════════════════════════════════
+   v3.0.2 核心布局（键盘适配版）
+   原则：lj-root = 唯一滚动容器 overflow-y:auto
+         保存按钮 = 普通流式，键盘弹起时随内容上移
+         lj-content-scroll = 只是 flex 子项，不独立滚动
+   ═══════════════════════════════════════════════════════ */
+.lj-root * { box-sizing: border-box; }
+
+.lj-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;            /* ← v3.0.2：root 整体滚动（键盘适配关键） */
+  -webkit-overflow-scrolling: touch;
+  background: var(--lj-bg);
+  color: var(--lj-text);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  container-type: inline-size;
+}
+
+/* ── Header ──────────────────────────────────────────── */
+.lj-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px 8px;
+  background: linear-gradient(135deg, var(--lj-accent), var(--lj-accent-soft));
+  flex-shrink: 0;
+}
+
+/* ── 记录/回顾 切换条（v3.0：固定在 Tab 栏上方） ──── */
+.lj-mode-toggle-bar {
+  display: flex;
+  justify-content: center;
+  padding: 6px 0 4px;
+  background: var(--lj-surface);
+  border-bottom: 1px solid var(--lj-border);
+  flex-shrink: 0;
+}
+
+.lj-mode-toggle {
+  display: flex;
+  gap: 4px;
+  background: var(--lj-surface2);
+  padding: 3px;
+  border-radius: 20px;
+}
+
+.lj-mode-btn {
+  padding: 5px 16px;
+  border-radius: 16px;
+  font-size: 12px;
+  color: var(--lj-text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.lj-mode-btn.active {
+  background: var(--lj-accent);
+  color: white;
+  font-weight: 500;
+}
+
+/* ── Tab 栏 ──────────────────────────────────────────── */
+.lj-tab-bar {
+  display: flex;
+  gap: 3px;
+  padding: 6px 10px 8px;   /* ← v3.1.1 fix：顶部加 6px，Tab 不贴顶 */
+  background: var(--lj-surface);
+  border-bottom: 1px solid var(--lj-border);
+  flex-shrink: 0;
+}
+
+.lj-tab {
+  flex: 1;
+  padding: 5px 2px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--lj-text-muted);
+  transition: all 0.2s;
+  background: var(--lj-surface2);
+  /* ← v3.1.1 fix：flex 居中，emoji + 文字垂直居中 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lj-tab.active {
+  background: var(--lj-accent);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 8px var(--lj-shadow);
+}
+
+.lj-tab-emoji { font-size: 16px; margin-bottom: 2px; }
+
+/* ── 内容区（v3.0.2：普通流式，不独立滚动，跟随 lj-root） ── */
+.lj-content-scroll {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  /* 不设 overflow-y，让 lj-root 统一滚动 */
+}
+
+/* ── 心情药丸（v3.0.3：缩小一半，紧凑排布） ── */
+.lj-mood-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 6px 12px 4px;
+  flex-shrink: 0;
+}
+
+.lj-mood-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 4px 2px;
+  background: var(--lj-surface);
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.lj-mood-pill span {
+  font-size: 8px;
+  color: var(--lj-text-muted);
+  font-style: normal;
+}
+
+.lj-mood-pill.selected {
+  background: var(--lj-accent-soft);
+  border-color: var(--lj-accent);
+}
+
+/* ── 心情 Tab 专属输入框（比普通输入框小一半） ── */
+.lj-mood-textarea {
+  min-height: 60px !important;   /* 普通是 120px，缩小一半 */
+  font-size: 13px;
+}
+
+/* 兼容旧的横向滚动写法（降级 fallback） */
+.lj-mood-strip {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px 6px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+.lj-mood-strip::-webkit-scrollbar { display: none; }
+
+/* ── 输入区包装 ────────────────────────────────────── */
+.lj-input-wrap {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px 4px;
+}
+
+/* ── Textarea（v3.0.2：自然高度，rows 控制，随内容滚动） ── */
+.lj-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--lj-border);
+  border-radius: 14px;
+  background: var(--lj-surface);
+  color: var(--lj-text);
+  font-size: 14px;
+  line-height: 1.7;
+  resize: none;
+  font-family: inherit;
+  min-height: 120px;
+}
+
+.lj-textarea-flex {
+  min-height: 140px;  /* 不需要 flex:1 撑满，给一个舒适的固定最小高度 */
+}
+
+.lj-textarea:focus {
+  outline: none;
+  border-color: var(--lj-accent);
+  box-shadow: 0 0 0 3px var(--lj-accent-soft);
+}
+
+.lj-tag-preview {
+  display: none;
+  margin-top: 8px;
+  gap: 6px;
+}
+
+.lj-tag-preview.has-tags {
+  display: flex;
+  flex-direction: column;
+}
+
+.lj-tag-preview-plans {
+  padding: 0 12px 4px;
+}
+
+.lj-tag-preview-label {
+  font-size: 12px;
+  color: var(--lj-text-sub);
+}
+
+.lj-tag-preview-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.lj-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--lj-accent);
+  background: color-mix(in srgb, var(--lj-accent) 10%, var(--lj-surface));
+  border: 1px solid color-mix(in srgb, var(--lj-accent) 20%, transparent);
+}
+
+/* ── 图片上传栏 ── */
+.lj-img-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0 2px;
+  margin-top: 2px;
+}
+
+.lj-img-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--lj-accent) 10%, var(--lj-surface));
+  border: 1px solid color-mix(in srgb, var(--lj-accent) 15%, transparent);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.lj-img-upload-btn:hover {
+  background: color-mix(in srgb, var(--lj-accent) 20%, var(--lj-surface));
+  border-color: var(--lj-accent);
+  transform: scale(1.05);
+}
+
+.lj-img-upload-btn:active {
+  transform: scale(0.95);
+}
+
+.lj-img-hint {
+  font-size: 11px;
+  color: var(--lj-text-sub);
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.lj-img-file-input {
+  display: none !important;
+}
+
+/* ── 保存按钮（v3.0.2：普通流式，键盘弹起时自然上移） ── */
+
+.lj-save-btn-sticky {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px;
+  margin: 8px 12px 16px;
+  background: linear-gradient(135deg, var(--lj-accent), var(--lj-accent-soft));
+  border-radius: 14px;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px var(--lj-shadow);
+  letter-spacing: 0.3px;
+}
+
+.lj-save-btn-sticky:active { transform: scale(0.97); opacity: 0.9; }
+.lj-save-btn-sticky.loading { opacity: 0.6; pointer-events: none; }
+
+/* 保留旧 save-btn 样式（settings等其他地方可能用到） */
+.lj-save-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px;
+  background: linear-gradient(135deg, var(--lj-accent), var(--lj-accent-soft));
+  border-radius: 14px;
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 12px;
+  box-shadow: 0 4px 12px var(--lj-shadow);
+}
+
+.lj-save-btn:active { transform: scale(0.98); }
+.lj-save-btn.loading { opacity: 0.6; pointer-events: none; }
+.lj-btn-icon { font-size: 16px; }
+
+/* ════════════════════════════════════════════════════════
+   计划 Tab（v3.0：顶部添加框 + 弹性列表）
+   ═══════════════════════════════════════════════════════ */
+.lj-todo-add-row {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px 6px;
+  flex-shrink: 0;
+}
+
+.lj-todo-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--lj-border);
+  border-radius: 10px;
+  background: var(--lj-surface);
+  color: var(--lj-text);
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.lj-todo-input:focus {
+  outline: none;
+  border-color: var(--lj-accent);
+}
+
+.lj-todo-add-btn {
+  padding: 8px 16px;
+  background: var(--lj-accent);
+  color: white;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* 待办列表（v3.0：flex:1 占满剩余，内部可滚动） */
+.lj-todo-list-flex {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 12px;
+  min-height: 60px;
+}
+
+.lj-todo-list {
+  background: transparent;
+}
+
+.lj-todo-empty {
+  text-align: center;
+  padding: 20px 16px;
+  color: var(--lj-text-sub);
+  font-size: 13px;
+}
+
+.lj-todo-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  background: var(--lj-surface);
+  border: 1px solid var(--lj-border);
+  transition: opacity 0.2s;
+}
+
+.lj-todo-item.done { opacity: 0.5; }
+
+.lj-todo-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.lj-todo-text {
+  flex: 1;
+  font-size: 13px;
+  color: var(--lj-text);
+}
+
+.lj-todo-text.strikethrough {
+  text-decoration: line-through;
+  color: var(--lj-text-sub);
+}
+
+.lj-todo-del {
+  font-size: 16px;
+  color: var(--lj-text-sub);
+  cursor: pointer;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════════════════════
+   回顾视图（v3.0：root-review-v3）
+   ═══════════════════════════════════════════════════════ */
+.lj-root.lj-root-review-v3 {
+  /* root 已是 overflow:hidden，无需额外设置 */
+}
+
+.lj-review-container {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0;
+}
+
+.lj-review-root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: var(--lj-bg);
+}
+
+.lj-review-filter-bar {
+  display: flex;
+  gap: 6px;
+  padding: 10px 14px 8px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+.lj-review-filter-bar::-webkit-scrollbar { display: none; }
+
+.lj-review-filter-tag {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  background: var(--lj-surface);
+  border: 1px solid var(--lj-border);
+  border-radius: 16px;
+  font-size: 12px;
+  color: var(--lj-text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lj-review-filter-tag.active {
+  background: var(--lj-accent);
+  border-color: var(--lj-accent);
+  color: white;
+}
+
+.lj-review-active-tag-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px 10px;
+  flex-wrap: wrap;
+}
+
+.lj-review-active-tag-label {
+  font-size: 12px;
+  color: var(--lj-text-sub);
+}
+
+.lj-review-clear-tag {
+  font-size: 12px;
+  color: var(--lj-accent);
+  cursor: pointer;
+}
+
+.lj-review-scroll {
+
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 12px 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lj-review-date-group { margin-bottom: 16px; }
+
+.lj-review-date-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  font-weight: 600;
+  color: var(--lj-text);
+}
+
+.lj-review-date-full {
+  font-size: 11px;
+  color: var(--lj-text-sub);
+  font-weight: 400;
+}
+
+.lj-review-card {
+  background: var(--lj-surface);
+  border-radius: var(--lj-radius);
+  padding: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px var(--lj-shadow);
+}
+
+.lj-review-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.lj-review-card-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: var(--lj-accent-soft);
+  border-radius: 12px;
+  font-size: 11px;
+  color: var(--lj-accent);
+}
+
+.lj-review-card-time {
+  font-size: 11px;
+  color: var(--lj-text-sub);
+}
+
+.lj-review-card-text {
+  font-size: 13px;
+  color: var(--lj-text);
+  line-height: 1.5;
+}
+
+.lj-review-card-text > :first-child {
+  margin-top: 0;
+}
+
+.lj-review-card-text > :last-child {
+  margin-bottom: 0;
+}
+
+.lj-review-entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.lj-review-inline-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--lj-accent);
+  background: color-mix(in srgb, var(--lj-accent) 10%, var(--lj-surface));
+  border: 1px solid color-mix(in srgb, var(--lj-accent) 20%, transparent);
+  cursor: pointer;
+}
+
+.lj-review-inline-tag.active {
+  color: #fff;
+  background: var(--lj-accent);
+  border-color: var(--lj-accent);
+}
+
+.lj-review-todo-list {
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lj-review-todo-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+
+.lj-review-todo-item.done { opacity: 0.5; }
+
+.lj-review-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--lj-border);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  background: white;
+  flex-shrink: 0;
+}
+
+.lj-review-checkbox.checked {
+  background: var(--lj-accent);
+  border-color: var(--lj-accent);
+}
+
+.lj-review-checkbox.checked::after {
+  content: "✓";
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.lj-review-todo-text {
+  flex: 1;
+  font-size: 13px;
+  color: var(--lj-text);
+}
+
+.lj-review-todo-text.done {
+  text-decoration: line-through;
+  color: var(--lj-text-sub);
+}
+
+.lj-review-todo-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--lj-border);
+  font-size: 11px;
+  color: var(--lj-text-sub);
+}
+
+.lj-review-progress-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--lj-surface2);
+  border-radius: 2px;
+  margin-left: 8px;
+  overflow: hidden;
+}
+
+.lj-review-progress-fill {
+  height: 100%;
+  background: var(--lj-accent);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+.lj-review-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--lj-text-sub);
+}
+
+.lj-review-empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.lj-review-empty-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--lj-text);
+  margin-bottom: 4px;
+}
+
+.lj-review-empty-sub { font-size: 13px; }
+
+.lj-review-loading {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px;
+}
+
+.lj-review-loading-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--lj-accent);
+  border-radius: 50%;
+  animation: lj-bounce 1.4s infinite ease-in-out both;
+}
+
+.lj-review-loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.lj-review-loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes lj-bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+/* ══════════════════════════════════════════════════════
+   三套 UI 风格覆盖（v3.0.2：全面还原 v2.0 设计稿质感）
+   ══════════════════════════════════════════════════════ */
+
+/* 风格 A：极简墨白 —— 保持黑白为主，accent 变量做细节点缀 */
+body.lj-style-minimal .lj-root { background: var(--lj-bg, #fafaf8); }
+body.lj-style-minimal .lj-header { background: #111; }
+body.lj-style-minimal .lj-mode-toggle-bar { background: var(--lj-bg, #fafaf8); border-bottom: 1px solid var(--lj-border, #e8e6e0); }
+body.lj-style-minimal .lj-tab-bar { background: var(--lj-bg, #fafaf8); border-bottom: 1px solid var(--lj-border, #e8e6e0); }
+body.lj-style-minimal .lj-tab { background: var(--lj-surface2, #f0efeb); color: #999; }
+body.lj-style-minimal .lj-tab.active { background: #1a1a1a; color: #fff; box-shadow: none; }
+body.lj-style-minimal .lj-textarea { background: var(--lj-surface, #fff); border-color: var(--lj-border, #e0ded8); border-radius: 10px; }
+body.lj-style-minimal .lj-textarea:focus { border-color: #1a1a1a; box-shadow: none; }
+body.lj-style-minimal .lj-mood-pill { background: var(--lj-surface2, #f0efeb); border-radius: 8px; }
+body.lj-style-minimal .lj-mood-pill.selected { background: #1a1a1a; border-color: #1a1a1a; }
+body.lj-style-minimal .lj-mood-pill.selected span { color: #fff; }
+body.lj-style-minimal .lj-save-btn-sticky { background: #1a1a1a; box-shadow: none; }
+body.lj-style-minimal .lj-save-btn { background: #1a1a1a; box-shadow: none; }
+body.lj-style-minimal .lj-mode-btn.active { background: #1a1a1a; }
+body.lj-style-minimal .lj-review-card { background: var(--lj-surface, #fff); border: 1px solid var(--lj-border, #e8e6e0); box-shadow: none; }
+body.lj-style-minimal .lj-review-filter-tag.active { background: #1a1a1a; border-color: #1a1a1a; }
+
+/* 风格 B：霓光深夜 —— 读主题渐变变量；背景保持暗色，渐变色随主题变化 */
+body.lj-style-neon .lj-root {
+  background: linear-gradient(160deg, #0d0d14 0%, #1a1228 60%, #0d0d14 100%);
+  color: var(--lj-text, #e8e8f0);
+}
+body.lj-style-neon .lj-header { background: linear-gradient(135deg, var(--lj-grad-from, #f97316) 0%, var(--lj-grad-to, #a855f7) 100%); }
+body.lj-style-neon .lj-mode-toggle-bar { background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.07); }
+body.lj-style-neon .lj-tab-bar { background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.07); }
+body.lj-style-neon .lj-tab { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.4); }
+body.lj-style-neon .lj-tab.active { background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7)); color: #fff; box-shadow: 0 2px 12px var(--lj-grad-shadow, rgba(168,85,247,0.4)); }
+body.lj-style-neon .lj-textarea {
+  background: rgba(255,255,255,0.06) !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  color: var(--lj-text, #e8e8f0);
+}
+body.lj-style-neon .lj-textarea:focus {
+  border-color: color-mix(in srgb, var(--lj-grad-to, #a855f7) 60%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lj-grad-to, #a855f7) 15%, transparent) !important;
+}
+body.lj-style-neon .lj-mood-pill { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.08); }
+body.lj-style-neon .lj-mood-pill span { color: rgba(255,255,255,0.35); }
+body.lj-style-neon .lj-mood-pill.selected { background: color-mix(in srgb, var(--lj-grad-to, #a855f7) 20%, transparent); border-color: var(--lj-grad-to, #a855f7); box-shadow: 0 0 8px var(--lj-grad-shadow, rgba(168,85,247,0.3)); }
+body.lj-style-neon .lj-todo-item { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.1) !important; }
+body.lj-style-neon .lj-todo-input { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: var(--lj-text, #e8e8f0); }
+body.lj-style-neon .lj-todo-add-btn { background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7)); }
+body.lj-style-neon .lj-save-btn-sticky { background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7)); box-shadow: 0 4px 20px var(--lj-grad-shadow, rgba(168,85,247,0.4)); }
+body.lj-style-neon .lj-save-btn { background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7)); }
+body.lj-style-neon .lj-mode-btn.active { background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7)); }
+body.lj-style-neon .lj-review-card { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.08) !important; }
+body.lj-style-neon .lj-review-filter-tag { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
+body.lj-style-neon .lj-review-filter-tag.active { background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7)); border-color: transparent; }
+
+/* 风格 C：柔光卡片（默认）—— 读主题渐变变量，配色皮肤切换生效 */
+body.lj-style-soft .lj-root {
+  background: var(--lj-bg-grad, linear-gradient(160deg, #fff8f5 0%, #f5f0ff 50%, #f0f5ff 100%));
+}
+body.lj-style-soft .lj-header {
+  background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7));
+}
+body.lj-style-soft .lj-mode-toggle-bar {
+  background: transparent;
+  border-bottom: none;
+  padding-top: 8px;
+}
+body.lj-style-soft .lj-mode-toggle {
+  background: rgba(0,0,0,0.06);
+}
+body.lj-style-soft .lj-mode-btn {
+  color: #888;
+}
+body.lj-style-soft .lj-mode-btn.active {
+  background: #fff;
+  color: var(--lj-text, #1a1a2e);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+body.lj-style-soft .lj-tab-bar {
+  background: transparent;
+  border-bottom: none;
+  padding: 0 12px 8px;
+}
+body.lj-style-soft .lj-tab {
+  background: rgba(255,255,255,0.5);
+  color: #999;
+  border-radius: 14px;
+}
+body.lj-style-soft .lj-tab.active {
+  background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7));
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 10px var(--lj-grad-shadow, rgba(168,85,247,0.25));
+}
+body.lj-style-soft .lj-textarea {
+  background: rgba(255,255,255,0.7);
+  border-color: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 14px;
+  font-size: 14px;
+}
+body.lj-style-soft .lj-textarea:focus {
+  background: rgba(255,255,255,0.85);
+  border-color: color-mix(in srgb, var(--lj-grad-to, #a855f7) 40%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lj-grad-to, #a855f7) 10%, transparent);
+}
+body.lj-style-soft .lj-mood-pill {
+  background: rgba(255,255,255,0.7);
+  border-color: rgba(255,255,255,0.9);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 12px;
+}
+body.lj-style-soft .lj-mood-pill.selected {
+  background: color-mix(in srgb, var(--lj-accent, #a855f7) 12%, transparent);
+  border-color: color-mix(in srgb, var(--lj-accent, #a855f7) 40%, transparent);
+}
+body.lj-style-soft .lj-mood-pill span { color: #aaa; }
+body.lj-style-soft .lj-todo-item {
+  background: rgba(255,255,255,0.7);
+  border-color: rgba(255,255,255,0.9);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+}
+body.lj-style-soft .lj-todo-input {
+  background: rgba(255,255,255,0.6);
+  border-color: rgba(255,255,255,0.8);
+}
+body.lj-style-soft .lj-todo-add-btn {
+  background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7));
+}
+body.lj-style-soft .lj-save-btn-sticky {
+  background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7));
+  box-shadow: 0 4px 20px var(--lj-grad-shadow, rgba(168,85,247,0.25));
+}
+body.lj-style-soft .lj-save-btn {
+  background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7));
+}
+body.lj-style-soft .lj-review-card {
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+body.lj-style-soft .lj-review-filter-tag {
+  background: rgba(255,255,255,0.7);
+  border-color: rgba(255,255,255,0.9);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+body.lj-style-soft .lj-review-filter-tag.active {
+  background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7));
+  border-color: transparent;
+  color: #fff;
+}
+
+/* ════════════════════════════════════════════════════════
+   设置页面
+   ═══════════════════════════════════════════════════════ */
+.lj-settings-header {
+  text-align: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--lj-border);
+  margin-bottom: 16px;
+}
+
+.lj-settings-version {
+  font-size: 12px;
+  color: var(--lj-text-sub);
+  margin-top: 4px;
+}
+
+.lj-settings-hint {
+  font-size: 12px;
+  color: var(--lj-text-sub);
+  margin-bottom: 12px;
+}
+
+.lj-style-grid,
+.lj-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.lj-style-card,
+.lj-theme-card {
+  padding: 12px;
+  background: var(--lj-surface);
+  border: 2px solid var(--lj-border);
+  border-radius: var(--lj-radius);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.lj-style-card.active,
+.lj-theme-card.active {
+  border-color: var(--lj-accent);
+  background: var(--lj-accent-soft);
+}
+
+.lj-style-emoji,
+.lj-theme-emoji { font-size: 28px; margin-bottom: 6px; }
+
+.lj-style-name,
+.lj-theme-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--lj-text);
+  margin-bottom: 4px;
+}
+
+.lj-style-desc,
+.lj-theme-desc {
+  font-size: 10px;
+  color: var(--lj-text-sub);
+  line-height: 1.3;
+}
+
+.lj-settings-footer {
+  text-align: center;
+  padding: 16px 0;
+  margin-top: 24px;
+  border-top: 1px solid var(--lj-border);
+  font-size: 12px;
+  color: var(--lj-text-sub);
+}
+
+/* ════════════════════════════════════════════════════════
+   Header 风格变体（各风格专属细节）
+   ═══════════════════════════════════════════════════════ */
+.lj-header-left { flex: 1; }
+
+.lj-date-tiny {
+  font-size: 10px;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.lj-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.lj-header-icon {
+  font-size: 20px;
+  color: rgba(255,255,255,0.9);
+}
+
+.lj-header-toprow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.lj-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lj-logo-icon { font-size: 18px; color: rgba(255,255,255,0.9); }
+
+.lj-logo-text {
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+}
+
+.lj-date-badge {
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.18);
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.lj-greeting {
+  font-size: 12px;
+  color: rgba(255,255,255,0.85);
+  margin-top: 4px;
+}
+
+.lj-greeting-accent {
+  font-weight: 600;
+  color: white;
+}
+
+.lj-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lj-brand-dot {
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+}
+
+.lj-brand span {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.lj-streak-pill {
+  font-size: 11px;
+  color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.2);
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.lj-date-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.lj-date-large {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+}
+
+.lj-date-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ════════════════════════════════════════════════════════
+   响应式
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 400px) {
+  .lj-header { padding: 8px 12px 6px; }
+  .lj-date-large { font-size: 16px; }
+  .lj-tab-emoji { font-size: 14px; }
+}
+
+@container (max-width: 199px) {
+  .lj-save-btn-sticky { padding: 8px 10px; font-size: 12px; }
+}
+
+/* ════════════════════════════════════════════════════════
+   v3.1 移动端专属样式（仅 width < 600px）
+   ─ 心情精简为4个（1行4列）
+   ─ 输入框缩小 1/4
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 599px) {
+
+  /* ── 移动端：输入框缩小 1/4 ── */
+  /* 心情输入框：rows=2 对应高度 */
+  .lj-mood-textarea.lj-textarea-mobile {
+    min-height: 45px !important;
+    font-size: 13px;
+  }
+
+  /* 记录/想法输入框：rows=4（原 rows=6, min-height:120px → 90px） */
+  .lj-textarea.lj-textarea-mobile:not(.lj-mood-textarea) {
+    min-height: 90px !important;
+  }
+
+  /* ── 移动端：心情药丸（4个1行，大一些便于点击） ── */
+  .lj-mood-grid.lj-mood-grid-mobile {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 5px 8px 4px;
+  }
+
+  .lj-mood-grid.lj-mood-grid-mobile .lj-mood-pill {
+    padding: 5px 2px;
+    font-size: 16px;
+    border-radius: 8px;
+    gap: 2px;
+  }
+
+  .lj-mood-grid.lj-mood-grid-mobile .lj-mood-pill span {
+    font-size: 9px;
+  }
+}
+
+/* ════════════════════════════════════════════════════════
+   v3.1.4 新增样式（v3.1.5 修复：CSS类名与TS对齐）
+   ═══════════════════════════════════════════════════════ */
+
+/* ── 日期识别提示（v3.1.6：替代优先级行+截止日期输入框）── */
+.lj-date-hint {
+  font-size: 12px;
+  color: var(--lj-accent);
+  padding: 4px 14px;
+  min-height: 0;
+  overflow: hidden;
+  transition: all 0.2s;
+  opacity: 0;
+}
+.lj-date-hint.visible {
+  opacity: 1;
+  min-height: 20px;
+  padding: 6px 14px;
+}
+
+/* ── 清除已完成按钮行 ── */
+.lj-todo-clear-row {
+  display: flex;
+  justify-content: center;
+  padding: 6px 12px;
+}
+
+.lj-todo-clear-btn,
+.lj-clear-done-btn {
+  font-size: 12px;
+  color: var(--lj-text-sub);
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--lj-surface2);
+}
+
+.lj-todo-clear-btn:hover,
+.lj-clear-done-btn:hover {
+  color: var(--lj-accent);
+  background: var(--lj-accent-soft);
+}
+
+/* ── 待办项优先级 / 截止日期 ── */
+.lj-todo-text-wrap {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--lj-text);
+}
+
+.lj-todo-priority {
+  font-size: 12px;
+}
+
+.lj-todo-due {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--lj-accent) 10%, var(--lj-surface));
+  color: var(--lj-accent);
+  border: 1px solid color-mix(in srgb, var(--lj-accent) 20%, transparent);
+  white-space: nowrap;
+}
+
+.lj-todo-due.overdue {
+  background: #fff0f0;
+  color: #d32f2f;
+  border-color: #ffcdd2;
+  font-weight: 600;
+}
+
+/* ── 回顾视图：优先级 / 截止日期 ── */
+.lj-review-priority {
+  font-size: 12px;
+}
+
+.lj-review-due {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--lj-accent) 10%, transparent);
+  color: var(--lj-accent);
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+.lj-review-due.overdue {
+  background: #fff0f0;
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+/* ── 多行内容换行渲染 ── */
+.lj-review-card-text {
+  white-space: pre-wrap;
+}
+
+/* ── 霓光深夜风格覆盖：优先级/日期 ── */
+body.lj-style-neon .lj-priority-pill {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.08);
+}
+body.lj-style-neon .lj-priority-pill.selected {
+  border-color: var(--lj-grad-to, #a855f7);
+  background: color-mix(in srgb, var(--lj-grad-to, #a855f7) 15%, transparent);
+}
+body.lj-style-neon .lj-todo-due {
+  background: rgba(255,255,255,0.06);
+  color: var(--lj-text-muted, #a0a0b8);
+  border-color: rgba(255,255,255,0.1);
+}
+body.lj-style-neon .lj-todo-due.overdue {
+  background: rgba(211,47,47,0.15);
+  color: #ef5350;
+  border-color: rgba(211,47,47,0.3);
+}
+body.lj-style-neon .lj-review-due {
+  background: rgba(255,255,255,0.06);
+  color: var(--lj-text-muted, #a0a0b8);
+}
+body.lj-style-neon .lj-review-due.overdue {
+  background: rgba(211,47,47,0.15);
+  color: #ef5350;
+}
+
+/* ── 柔光卡片风格覆盖：优先级/日期 ── */
+body.lj-style-soft .lj-priority-pill {
+  background: rgba(255,255,255,0.6);
+  border-color: rgba(255,255,255,0.8);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+body.lj-style-soft .lj-priority-pill.selected {
+  background: color-mix(in srgb, var(--lj-accent, #a855f7) 12%, transparent);
+  border-color: color-mix(in srgb, var(--lj-accent, #a855f7) 40%, transparent);
+}
+body.lj-style-soft .lj-todo-due {
+  background: color-mix(in srgb, var(--lj-accent, #a855f7) 8%, rgba(255,255,255,0.6));
+  border-color: rgba(255,255,255,0.7);
+}
+body.lj-style-soft .lj-review-due {
+  background: color-mix(in srgb, var(--lj-accent, #a855f7) 8%, rgba(255,255,255,0.5));
+}
