@@ -1,15 +1,15 @@
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-   Life Journal 路 v3.0.2 路 閿洏閫傞厤 + v2.0 椋庢牸杩樺師
-   鏍稿績鍘熷垯锛?
-   - lj-root = flex column锛宱verflow-y:auto锛堝敮涓€婊氬姩瀹瑰櫒锛?
-   - lj-header / lj-mode-toggle-fixed / lj-tab-bar = flex-shrink:0 鍥哄畾
-   - lj-content-scroll = flex:1锛屼笉璁?overflow-y锛堟櫘閫氭祦锛?
-   - textarea = rows=5 鍥哄畾琛屾暟锛屼笉 flex:1
-   - lj-save-btn-sticky = 鏅€氭祦寮忥紝閿洏寮硅捣鏃堕殢鍐呭涓婄Щ
-   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ════════════════════════════════════════════════════════
+   Life Journal · v3.0.2 · 键盘适配 + v2.0 风格还原
+   核心原则：
+   - lj-root = flex column，overflow-y:auto（唯一滚动容器）
+   - lj-header / lj-mode-toggle-fixed / lj-tab-bar = flex-shrink:0 固定
+   - lj-content-scroll = flex:1，不设 overflow-y（普通流）
+   - textarea = rows=5 固定行数，不 flex:1
+   - lj-save-btn-sticky = 普通流式，键盘弹起时随内容上移
+   ═══════════════════════════════════════════════════════ */
 
-/* 鈹€鈹€ 閰嶈壊鐨偆鍙橀噺 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
-/* 馃尶 鏅ㄦ灄 Forest锛堥粯璁わ級 */
+/* ── 配色皮肤变量 ────────────────────────────────────────── */
+/* 🌿 晨林 Forest（默认） */
 body.lj-theme-forest {
   --lj-bg:           #f4f7f2;
   --lj-surface:      #ffffff;
@@ -22,14 +22,14 @@ body.lj-theme-forest {
   --lj-text-sub:     #9ab49a;
   --lj-shadow:       rgba(74, 140, 92, 0.12);
   --lj-radius:       14px;
-  /* 娓愬彉鑹诧細Header / 鎸夐挳 / Tab active */
+  /* 渐变色：Header / 按钮 / Tab active */
   --lj-grad-from:    #52b788;
   --lj-grad-to:      #2d6a4f;
   --lj-bg-grad:      linear-gradient(160deg, #f0f7ec 0%, #e8f5e2 50%, #f2f8ee 100%);
   --lj-grad-shadow:  rgba(74, 140, 92, 0.35);
 }
 
-/* 馃寠 娴锋氮 Ocean */
+/* 🌊 海浪 Ocean */
 body.lj-theme-ocean {
   --lj-bg:           #f0f5fa;
   --lj-surface:      #ffffff;
@@ -42,14 +42,14 @@ body.lj-theme-ocean {
   --lj-text-sub:     #96b4cc;
   --lj-shadow:       rgba(42, 111, 168, 0.12);
   --lj-radius:       14px;
-  /* 娓愬彉鑹?*/
+  /* 渐变色 */
   --lj-grad-from:    #1a8bb5;
   --lj-grad-to:      #0d4f8a;
   --lj-bg-grad:      linear-gradient(160deg, #eef5fc 0%, #deeeff 50%, #eaf4fd 100%);
   --lj-grad-shadow:  rgba(42, 111, 168, 0.35);
 }
 
-/* 馃彍锔?鏆矙 Desert */
+/* 🏜️ 暮沙 Desert */
 body.lj-theme-desert {
   --lj-bg:           #faf6f0;
   --lj-surface:      #ffffff;
@@ -62,14 +62,14 @@ body.lj-theme-desert {
   --lj-text-sub:     #c4996a;
   --lj-shadow:       rgba(181, 101, 29, 0.12);
   --lj-radius:       14px;
-  /* 娓愬彉鑹?*/
+  /* 渐变色 */
   --lj-grad-from:    #e07b2a;
   --lj-grad-to:      #b5400a;
   --lj-bg-grad:      linear-gradient(160deg, #fdf6ee 0%, #faebd8 50%, #fdf3e8 100%);
   --lj-grad-shadow:  rgba(181, 101, 29, 0.35);
 }
 
-/* 馃尭 妯辫惤 Cherry */
+/* 🌸 樱落 Cherry */
 body.lj-theme-cherry {
   --lj-bg:           #fdf5f8;
   --lj-surface:      #ffffff;
@@ -82,14 +82,14 @@ body.lj-theme-cherry {
   --lj-text-sub:     #ce8dab;
   --lj-shadow:       rgba(194, 24, 91, 0.10);
   --lj-radius:       18px;
-  /* 娓愬彉鑹?*/
+  /* 渐变色 */
   --lj-grad-from:    #e91e8c;
   --lj-grad-to:      #9c0050;
   --lj-bg-grad:      linear-gradient(160deg, #fff0f5 0%, #fce4ee 50%, #fff5f8 100%);
   --lj-grad-shadow:  rgba(194, 24, 91, 0.35);
 }
 
-/* 馃寘 鏆湠 Dusk */
+/* 🌅 暮霞 Dusk */
 body.lj-theme-dusk {
   --lj-bg:           #faf3f0;
   --lj-surface:      #ffffff;
@@ -102,14 +102,14 @@ body.lj-theme-dusk {
   --lj-text-sub:     #c48970;
   --lj-shadow:       rgba(176, 80, 32, 0.12);
   --lj-radius:       14px;
-  /* 娓愬彉鑹?*/
+  /* 渐变色 */
   --lj-grad-from:    #f97316;
   --lj-grad-to:      #b05020;
   --lj-bg-grad:      linear-gradient(160deg, #fff5f0 0%, #fde8dc 50%, #fff0e8 100%);
   --lj-grad-shadow:  rgba(176, 80, 32, 0.35);
 }
 
-/* 馃寵 鏋佸 Midnight */
+/* 🌙 极夜 Midnight */
 body.lj-theme-midnight {
   --lj-bg:           #0f1117;
   --lj-surface:      #1a1d26;
@@ -122,14 +122,14 @@ body.lj-theme-midnight {
   --lj-text-sub:     #606080;
   --lj-shadow:       rgba(0, 0, 0, 0.3);
   --lj-radius:       14px;
-  /* 娓愬彉鑹?*/
+  /* 渐变色 */
   --lj-grad-from:    #7c8cf8;
   --lj-grad-to:      #a855f7;
   --lj-bg-grad:      linear-gradient(160deg, #0d0d18 0%, #141228 50%, #0d0d18 100%);
   --lj-grad-shadow:  rgba(124, 140, 248, 0.4);
 }
 
-/* 馃挏 钖拌。鑽?Lavender */
+/* 💜 薰衣草 Lavender */
 body.lj-theme-lavender {
   --lj-bg:           #f5f0fa;
   --lj-surface:      #ffffff;
@@ -142,14 +142,14 @@ body.lj-theme-lavender {
   --lj-text-sub:     #a088c0;
   --lj-shadow:       rgba(123, 93, 196, 0.12);
   --lj-radius:       16px;
-  /* 娓愬彉鑹?*/
+  /* 渐变色 */
   --lj-grad-from:    #9c6ee8;
   --lj-grad-to:      #6530b8;
   --lj-bg-grad:      linear-gradient(160deg, #f8f4ff 0%, #ede4fa 50%, #f5f0ff 100%);
   --lj-grad-shadow:  rgba(123, 93, 196, 0.35);
 }
 
-/* 馃嵉 鎶硅尪 Matcha */
+/* 🍵 抹茶 Matcha */
 body.lj-theme-matcha {
   --lj-bg:           #f2f5ec;
   --lj-surface:      #ffffff;
@@ -162,26 +162,26 @@ body.lj-theme-matcha {
   --lj-text-sub:     #90a880;
   --lj-shadow:       rgba(90, 138, 90, 0.12);
   --lj-radius:       14px;
-  /* 娓愬彉鑹?*/
+  /* 渐变色 */
   --lj-grad-from:    #7ab648;
   --lj-grad-to:      #3d7a3d;
   --lj-bg-grad:      linear-gradient(160deg, #f0f5e8 0%, #e4f0d4 50%, #eef5e4 100%);
   --lj-grad-shadow:  rgba(90, 138, 90, 0.35);
 }
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-   v3.0.2 鏍稿績甯冨眬锛堥敭鐩橀€傞厤鐗堬級
-   鍘熷垯锛歭j-root = 鍞竴婊氬姩瀹瑰櫒 overflow-y:auto
-         淇濆瓨鎸夐挳 = 鏅€氭祦寮忥紝閿洏寮硅捣鏃堕殢鍐呭涓婄Щ
-         lj-content-scroll = 鍙槸 flex 瀛愰」锛屼笉鐙珛婊氬姩
-   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ════════════════════════════════════════════════════════
+   v3.0.2 核心布局（键盘适配版）
+   原则：lj-root = 唯一滚动容器 overflow-y:auto
+         保存按钮 = 普通流式，键盘弹起时随内容上移
+         lj-content-scroll = 只是 flex 子项，不独立滚动
+   ═══════════════════════════════════════════════════════ */
 .lj-root * { box-sizing: border-box; }
 
 .lj-root {
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow-y: auto;            /* 鈫?v3.0.2锛歳oot 鏁翠綋婊氬姩锛堥敭鐩橀€傞厤鍏抽敭锛?*/
+  overflow-y: auto;            /* ← v3.0.2：root 整体滚动（键盘适配关键） */
   -webkit-overflow-scrolling: touch;
   background: var(--lj-bg);
   color: var(--lj-text);
@@ -189,7 +189,7 @@ body.lj-theme-matcha {
   container-type: inline-size;
 }
 
-/* 鈹€鈹€ Header 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
+/* ── Header ──────────────────────────────────────────── */
 .lj-header {
   display: flex;
   align-items: center;
@@ -199,7 +199,7 @@ body.lj-theme-matcha {
   flex-shrink: 0;
 }
 
-/* 鈹€鈹€ 璁板綍/鍥為【 鍒囨崲鏉★紙v3.0锛氬浐瀹氬湪 Tab 鏍忎笂鏂癸級 鈹€鈹€鈹€鈹€ */
+/* ── 记录/回顾 切换条（v3.0：固定在 Tab 栏上方） ──── */
 .lj-mode-toggle-bar {
   display: flex;
   justify-content: center;
@@ -233,11 +233,11 @@ body.lj-theme-matcha {
   font-weight: 500;
 }
 
-/* 鈹€鈹€ Tab 鏍?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
+/* ── Tab 栏 ──────────────────────────────────────────── */
 .lj-tab-bar {
   display: flex;
   gap: 3px;
-  padding: 6px 10px 8px;   /* 鈫?v3.1.1 fix锛氶《閮ㄥ姞 6px锛孴ab 涓嶈创椤?*/
+  padding: 6px 10px 8px;   /* ← v3.1.1 fix：顶部加 6px，Tab 不贴顶 */
   background: var(--lj-surface);
   border-bottom: 1px solid var(--lj-border);
   flex-shrink: 0;
@@ -253,7 +253,7 @@ body.lj-theme-matcha {
   color: var(--lj-text-muted);
   transition: all 0.2s;
   background: var(--lj-surface2);
-  /* 鈫?v3.1.1 fix锛歠lex 灞呬腑锛宔moji + 鏂囧瓧鍨傜洿灞呬腑 */
+  /* ← v3.1.1 fix：flex 居中，emoji + 文字垂直居中 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -269,16 +269,16 @@ body.lj-theme-matcha {
 
 .lj-tab-emoji { font-size: 16px; margin-bottom: 2px; }
 
-/* 鈹€鈹€ 鍐呭鍖猴紙v3.0.2锛氭櫘閫氭祦寮忥紝涓嶇嫭绔嬫粴鍔紝璺熼殢 lj-root锛?鈹€鈹€ */
+/* ── 内容区（v3.0.2：普通流式，不独立滚动，跟随 lj-root） ── */
 .lj-content-scroll {
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 0;
-  /* 涓嶈 overflow-y锛岃 lj-root 缁熶竴婊氬姩 */
+  /* 不设 overflow-y，让 lj-root 统一滚动 */
 }
 
-/* 鈹€鈹€ 蹇冩儏鑽父锛坴3.0.3锛氱缉灏忎竴鍗婏紝绱у噾鎺掑竷锛?鈹€鈹€ */
+/* ── 心情药丸（v3.0.3：缩小一半，紧凑排布） ── */
 .lj-mood-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -312,13 +312,13 @@ body.lj-theme-matcha {
   border-color: var(--lj-accent);
 }
 
-/* 鈹€鈹€ 蹇冩儏 Tab 涓撳睘杈撳叆妗嗭紙姣旀櫘閫氳緭鍏ユ灏忎竴鍗婏級 鈹€鈹€ */
+/* ── 心情 Tab 专属输入框（比普通输入框小一半） ── */
 .lj-root .lj-mood-textarea {
-  min-height: 60px;   /* 鏅€氭槸 120px锛岀缉灏忎竴鍗?*/
+  min-height: 60px;   /* 普通是 120px，缩小一半 */
   font-size: 13px;
 }
 
-/* 鍏煎鏃х殑妯悜婊氬姩鍐欐硶锛堥檷绾?fallback锛?*/
+/* 兼容旧的横向滚动写法（降级 fallback） */
 .lj-mood-strip {
   display: flex;
   gap: 6px;
@@ -330,14 +330,14 @@ body.lj-theme-matcha {
 }
 .lj-mood-strip::-webkit-scrollbar { display: none; }
 
-/* 鈹€鈹€ 杈撳叆鍖哄寘瑁?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€ */
+/* ── 输入区包装 ────────────────────────────────────── */
 .lj-input-wrap {
   display: flex;
   flex-direction: column;
   padding: 8px 12px 4px;
 }
 
-/* 鈹€鈹€ Textarea锛坴3.0.2锛氳嚜鐒堕珮搴︼紝rows 鎺у埗锛岄殢鍐呭婊氬姩锛?鈹€鈹€ */
+/* ── Textarea（v3.0.2：自然高度，rows 控制，随内容滚动） ── */
 .lj-textarea {
   width: 100%;
   padding: 12px 14px;
@@ -353,7 +353,7 @@ body.lj-theme-matcha {
 }
 
 .lj-textarea-flex {
-  min-height: 140px;  /* 涓嶉渶瑕?flex:1 鎾戞弧锛岀粰涓€涓垝閫傜殑鍥哄畾鏈€灏忛珮搴?*/
+  min-height: 140px;  /* 不需要 flex:1 撑满，给一个舒适的固定最小高度 */
 }
 
 .lj-textarea:focus {
@@ -400,7 +400,7 @@ body.lj-theme-matcha {
   border: 1px solid color-mix(in srgb, var(--lj-accent) 20%, transparent);
 }
 
-/* 鈹€鈹€ 鍥剧墖涓婁紶鏍?鈹€鈹€ */
+/* ── 图片上传栏 ── */
 .lj-img-bar {
   display: flex;
   align-items: center;
@@ -445,7 +445,7 @@ body.lj-theme-matcha {
   display: none;
 }
 
-/* 鈹€鈹€ 淇濆瓨鎸夐挳锛坴3.0.2锛氭櫘閫氭祦寮忥紝閿洏寮硅捣鏃惰嚜鐒朵笂绉伙級 鈹€鈹€ */
+/* ── 保存按钮（v3.0.2：普通流式，键盘弹起时自然上移） ── */
 
 .lj-save-btn-sticky {
   display: flex;
@@ -468,7 +468,7 @@ body.lj-theme-matcha {
 .lj-save-btn-sticky:active { transform: scale(0.97); opacity: 0.9; }
 .lj-save-btn-sticky.loading { opacity: 0.6; pointer-events: none; }
 
-/* 淇濈暀鏃?save-btn 鏍峰紡锛坰ettings绛夊叾浠栧湴鏂瑰彲鑳界敤鍒帮級 */
+/* 保留旧 save-btn 样式（settings等其他地方可能用到） */
 .lj-save-btn {
   display: flex;
   align-items: center;
@@ -490,9 +490,9 @@ body.lj-theme-matcha {
 .lj-save-btn.loading { opacity: 0.6; pointer-events: none; }
 .lj-btn-icon { font-size: 16px; }
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-   璁″垝 Tab锛坴3.0锛氶《閮ㄦ坊鍔犳 + 寮规€у垪琛級
-   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ════════════════════════════════════════════════════════
+   计划 Tab（v3.0：顶部添加框 + 弹性列表）
+   ═══════════════════════════════════════════════════════ */
 .lj-todo-add-row {
   display: flex;
   gap: 8px;
@@ -529,7 +529,7 @@ body.lj-theme-matcha {
   align-items: center;
 }
 
-/* 寰呭姙鍒楄〃锛坴3.0锛歠lex:1 鍗犳弧鍓╀綑锛屽唴閮ㄥ彲婊氬姩锛?*/
+/* 待办列表（v3.0：flex:1 占满剩余，内部可滚动） */
 .lj-todo-list-flex {
   flex: 1;
   overflow-y: auto;
@@ -588,11 +588,11 @@ body.lj-theme-matcha {
   flex-shrink: 0;
 }
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-   鍥為【瑙嗗浘锛坴3.0锛歳oot-review-v3锛?
-   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ════════════════════════════════════════════════════════
+   回顾视图（v3.0：root-review-v3）
+   ═══════════════════════════════════════════════════════ */
 .lj-root.lj-root-review-v3 {
-  /* root 宸叉槸 overflow:hidden锛屾棤闇€棰濆璁剧疆 */
+  /* root 已是 overflow:hidden，无需额外设置 */
 }
 
 .lj-review-container {
@@ -877,11 +877,11 @@ body.lj-theme-matcha {
   40% { transform: scale(1); }
 }
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-   涓夊 UI 椋庢牸瑕嗙洊锛坴3.0.2锛氬叏闈㈣繕鍘?v2.0 璁捐绋胯川鎰燂級
-   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 */
+/* ══════════════════════════════════════════════════════
+   三套 UI 风格覆盖（v3.0.2：全面还原 v2.0 设计稿质感）
+   ══════════════════════════════════════════════════════ */
 
-/* 椋庢牸 A锛氭瀬绠€澧ㄧ櫧 鈥斺€?淇濇寔榛戠櫧涓轰富锛宎ccent 鍙橀噺鍋氱粏鑺傜偣缂€ */
+/* 风格 A：极简墨白 —— 保持黑白为主，accent 变量做细节点缀 */
 body.lj-style-minimal .lj-root { background: var(--lj-bg, #fafaf8); }
 body.lj-style-minimal .lj-header { background: #111; }
 body.lj-style-minimal .lj-mode-toggle-bar { background: var(--lj-bg, #fafaf8); border-bottom: 1px solid var(--lj-border, #e8e6e0); }
@@ -899,7 +899,7 @@ body.lj-style-minimal .lj-mode-btn.active { background: #1a1a1a; }
 body.lj-style-minimal .lj-review-card { background: var(--lj-surface, #fff); border: 1px solid var(--lj-border, #e8e6e0); box-shadow: none; }
 body.lj-style-minimal .lj-review-filter-tag.active { background: #1a1a1a; border-color: #1a1a1a; }
 
-/* 椋庢牸 B锛氶湏鍏夋繁澶?鈥斺€?璇讳富棰樻笎鍙樺彉閲忥紱鑳屾櫙淇濇寔鏆楄壊锛屾笎鍙樿壊闅忎富棰樺彉鍖?*/
+/* 风格 B：霓光深夜 —— 读主题渐变变量；背景保持暗色，渐变色随主题变化 */
 body.lj-style-neon .lj-root {
   background: linear-gradient(160deg, #0d0d14 0%, #1a1228 60%, #0d0d14 100%);
   color: var(--lj-text, #e8e8f0);
@@ -931,7 +931,7 @@ body.lj-style-neon .lj-root .lj-review-card { background: rgba(255,255,255,0.05)
 body.lj-style-neon .lj-review-filter-tag { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
 body.lj-style-neon .lj-review-filter-tag.active { background: linear-gradient(135deg, var(--lj-grad-from, #f97316), var(--lj-grad-to, #a855f7)); border-color: transparent; }
 
-/* 椋庢牸 C锛氭煍鍏夊崱鐗囷紙榛樿锛夆€斺€?璇讳富棰樻笎鍙樺彉閲忥紝閰嶈壊鐨偆鍒囨崲鐢熸晥 */
+/* 风格 C：柔光卡片（默认）—— 读主题渐变变量，配色皮肤切换生效 */
 body.lj-style-soft .lj-root {
   background: var(--lj-bg-grad, linear-gradient(160deg, #fff8f5 0%, #f5f0ff 50%, #f0f5ff 100%));
 }
@@ -1035,9 +1035,9 @@ body.lj-style-soft .lj-review-filter-tag.active {
   color: #fff;
 }
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-   璁剧疆椤甸潰
-   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ════════════════════════════════════════════════════════
+   设置页面
+   ═══════════════════════════════════════════════════════ */
 .lj-settings-header {
   text-align: center;
   padding: 16px 0;
@@ -1109,9 +1109,9 @@ body.lj-style-soft .lj-review-filter-tag.active {
   color: var(--lj-text-sub);
 }
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-   Header 椋庢牸鍙樹綋锛堝悇椋庢牸涓撳睘缁嗚妭锛?
-   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ════════════════════════════════════════════════════════
+   Header 风格变体（各风格专属细节）
+   ═══════════════════════════════════════════════════════ */
 .lj-header-left { flex: 1; }
 
 .lj-date-tiny {
@@ -1219,9 +1219,9 @@ body.lj-style-soft .lj-review-filter-tag.active {
   color: rgba(255,255,255,0.8);
 }
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-   鍝嶅簲寮?
-   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ════════════════════════════════════════════════════════
+   响应式
+   ═══════════════════════════════════════════════════════ */
 @media (max-width: 400px) {
   .lj-header { padding: 8px 12px 6px; }
   .lj-date-large { font-size: 16px; }
@@ -1232,26 +1232,26 @@ body.lj-style-soft .lj-review-filter-tag.active {
   .lj-save-btn-sticky { padding: 8px 10px; font-size: 12px; }
 }
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-   v3.1 绉诲姩绔笓灞炴牱寮忥紙浠?width < 600px锛?
-   鈹€ 蹇冩儏绮剧畝涓?涓紙1琛?鍒楋級
-   鈹€ 杈撳叆妗嗙缉灏?1/4
-   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ════════════════════════════════════════════════════════
+   v3.1 移动端专属样式（仅 width < 600px）
+   ─ 心情精简为4个（1行4列）
+   ─ 输入框缩小 1/4
+   ═══════════════════════════════════════════════════════ */
 @media (max-width: 599px) {
 
-  /* 鈹€鈹€ 绉诲姩绔細杈撳叆妗嗙缉灏?1/4 鈹€鈹€ */
-  /* 蹇冩儏杈撳叆妗嗭細rows=2 瀵瑰簲楂樺害 */
+  /* ── 移动端：输入框缩小 1/4 ── */
+  /* 心情输入框：rows=2 对应高度 */
   .lj-root .lj-mood-textarea.lj-textarea-mobile {
     min-height: 45px;
     font-size: 13px;
   }
 
-  /* 璁板綍/鎯虫硶杈撳叆妗嗭細rows=4锛堝師 rows=6, min-height:120px 鈫?90px锛?*/
+  /* 记录/想法输入框：rows=4（原 rows=6, min-height:120px → 90px） */
   .lj-root .lj-textarea.lj-textarea-mobile:not(.lj-mood-textarea) {
     min-height: 90px;
   }
 
-  /* 鈹€鈹€ 绉诲姩绔細蹇冩儏鑽父锛?涓?琛岋紝澶т竴浜涗究浜庣偣鍑伙級 鈹€鈹€ */
+  /* ── 移动端：心情药丸（4个1行，大一些便于点击） ── */
   .lj-mood-grid.lj-mood-grid-mobile {
     grid-template-columns: repeat(4, 1fr);
     gap: 4px;
@@ -1270,11 +1270,11 @@ body.lj-style-soft .lj-review-filter-tag.active {
   }
 }
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-   v3.1.4 鏂板鏍峰紡锛坴3.1.5 淇锛欳SS绫诲悕涓嶵S瀵归綈锛?
-   鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ════════════════════════════════════════════════════════
+   v3.1.4 新增样式（v3.1.5 修复：CSS类名与TS对齐）
+   ═══════════════════════════════════════════════════════ */
 
-/* 鈹€鈹€ 鏃ユ湡璇嗗埆鎻愮ず锛坴3.1.6锛氭浛浠ｄ紭鍏堢骇琛?鎴鏃ユ湡杈撳叆妗嗭級鈹€鈹€ */
+/* ── 日期识别提示（v3.1.6：替代优先级行+截止日期输入框）── */
 .lj-date-hint {
   font-size: 12px;
   color: var(--lj-accent);
@@ -1290,7 +1290,7 @@ body.lj-style-soft .lj-review-filter-tag.active {
   padding: 6px 14px;
 }
 
-/* 鈹€鈹€ 娓呴櫎宸插畬鎴愭寜閽 鈹€鈹€ */
+/* ── 清除已完成按钮行 ── */
 .lj-todo-clear-row {
   display: flex;
   justify-content: center;
@@ -1314,7 +1314,7 @@ body.lj-style-soft .lj-review-filter-tag.active {
   background: var(--lj-accent-soft);
 }
 
-/* 鈹€鈹€ 寰呭姙椤逛紭鍏堢骇 / 鎴鏃ユ湡 鈹€鈹€ */
+/* ── 待办项优先级 / 截止日期 ── */
 .lj-todo-text-wrap {
   flex: 1;
   display: flex;
@@ -1346,7 +1346,7 @@ body.lj-style-soft .lj-review-filter-tag.active {
   font-weight: 600;
 }
 
-/* 鈹€鈹€ 鍥為【瑙嗗浘锛氫紭鍏堢骇 / 鎴鏃ユ湡 鈹€鈹€ */
+/* ── 回顾视图：优先级 / 截止日期 ── */
 .lj-review-priority {
   font-size: 12px;
 }
@@ -1367,12 +1367,12 @@ body.lj-style-soft .lj-review-filter-tag.active {
   font-weight: 600;
 }
 
-/* 鈹€鈹€ 澶氳鍐呭鎹㈣娓叉煋 鈹€鈹€ */
+/* ── 多行内容换行渲染 ── */
 .lj-review-card-text {
   white-space: pre-wrap;
 }
 
-/* 鈹€鈹€ 闇撳厜娣卞椋庢牸瑕嗙洊锛氫紭鍏堢骇/鏃ユ湡 鈹€鈹€ */
+/* ── 霓光深夜风格覆盖：优先级/日期 ── */
 body.lj-style-neon .lj-priority-pill {
   background: rgba(255,255,255,0.06);
   border-color: rgba(255,255,255,0.08);
@@ -1400,7 +1400,7 @@ body.lj-style-neon .lj-review-due.overdue {
   color: #ef5350;
 }
 
-/* 鈹€鈹€ 鏌斿厜鍗＄墖椋庢牸瑕嗙洊锛氫紭鍏堢骇/鏃ユ湡 鈹€鈹€ */
+/* ── 柔光卡片风格覆盖：优先级/日期 ── */
 body.lj-style-soft .lj-priority-pill {
   background: rgba(255,255,255,0.6);
   border-color: rgba(255,255,255,0.8);
