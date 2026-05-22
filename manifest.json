@@ -1,11 +1,10 @@
 {
   "id": "life-journal",
   "name": "Life Journal",
-  "version": "3.1.6",
+  "version": "3.1.7",
   "minAppVersion": "0.15.0",
-  "description": "Record your moods, moments, thoughts, and plans — make every day meaningful. A beautiful, multi-style journal plugin.",
+  "description": "Record your moods, moments, thoughts, and plans 鈥?make every day meaningful.",
   "author": "Natural Growth Notes",
-  "authorUrl": "https://github.com/iamxiaoming-gif/life-journal",
-  "fundingUrl": "https://www.xiaohongshu.com/user/profile/64c5c6de000000000b00d9a6",
+  "authorUrl": "https://github.com/iamxiaoming-gif",
   "isDesktopOnly": false
 }
