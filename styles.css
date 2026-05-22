@@ -790,7 +790,7 @@ body.lj-theme-matcha {
 }
 
 .lj-review-checkbox.checked::after {
-  content: "鉁?;
+  content: "\2713";
   color: white;
   font-size: 12px;
   font-weight: bold;
