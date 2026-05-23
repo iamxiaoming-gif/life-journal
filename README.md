@@ -135,7 +135,7 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 If you enjoy Life Journal, follow us for more Obsidian tips and knowledge management content:
 
-- 📕 **Xiaohongshu (小红书)**: 自然成长笔记
+- 📕 **Xiaohongshu (小红书)**: [自然成长笔记](https://www.xiaohongshu.com/user/profile/643fe8a200000000140138ed)
 - 💬 **WeChat Official Account (微信公众号)**: 自然成长笔记
 - 🎵 **Douyin (抖音)**: 自然成长笔记
 
