@@ -329,10 +329,6 @@ body.lj-theme-matcha {
 }
 .lj-mood-strip::-webkit-scrollbar { display: none; }
 
-@supports (scrollbar-width: none) {
-  .lj-mood-strip { scrollbar-width: none; }
-}
-
 /* ── 输入区包装 ────────────────────────────────────── */
 .lj-input-wrap {
   display: flex;
@@ -622,10 +618,6 @@ body.lj-theme-matcha {
 }
 
 .lj-review-filter-bar::-webkit-scrollbar { display: none; }
-
-@supports (scrollbar-width: none) {
-  .lj-review-filter-bar { scrollbar-width: none; }
-}
 
 .lj-review-filter-tag {
   flex-shrink: 0;
