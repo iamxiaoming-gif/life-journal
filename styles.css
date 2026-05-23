@@ -325,10 +325,13 @@ body.lj-theme-matcha {
   padding: 10px 12px 6px;
   overflow-x: auto;
   -ms-overflow-style: none;
-  scrollbar-width: none;
   flex-shrink: 0;
 }
 .lj-mood-strip::-webkit-scrollbar { display: none; }
+
+@supports (scrollbar-width: none) {
+  .lj-mood-strip { scrollbar-width: none; }
+}
 
 /* ── 输入区包装 ────────────────────────────────────── */
 .lj-input-wrap {
@@ -615,11 +618,14 @@ body.lj-theme-matcha {
   padding: 10px 14px 8px;
   overflow-x: auto;
   -ms-overflow-style: none;
-  scrollbar-width: none;
   flex-shrink: 0;
 }
 
 .lj-review-filter-bar::-webkit-scrollbar { display: none; }
+
+@supports (scrollbar-width: none) {
+  .lj-review-filter-bar { scrollbar-width: none; }
+}
 
 .lj-review-filter-tag {
   flex-shrink: 0;
